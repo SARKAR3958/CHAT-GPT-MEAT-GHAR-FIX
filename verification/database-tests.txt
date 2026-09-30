@@ -1,0 +1,32 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> meat-ghar@1.0.0 test
+> node tests/database.mjs
+
+PASS migration applied twice
+PASS customer cannot grant administrator access
+PASS customer sees only owned address and profile
+PASS customer cannot modify catalogue or forge balance
+PASS customer cannot approve deposits
+PASS checkout rejects another users address
+PASS checkout rejects null or empty cart
+PASS checkout rejects malformed quantities
+PASS checkout rejects fake gateway and null payment
+PASS changed quoted total is rejected without decrementing stock
+PASS outside delivery area is rejected
+PASS server ignores client prices and recalculates totals
+PASS repeated request creates only one order and stock decrement
+PASS insufficient wallet payment rolls back all changes
+PASS deposit approval credits exactly once
+PASS wallet payment and coupon commit atomically
+PASS invalid coupon rolls back inventory
+PASS customer cannot mark order delivered
+PASS another customer sees no orders or wallet balances
+PASS cancellation refunds wallet and restores stock exactly once
+PASS fulfillment cannot skip stages
+PASS delivered order accepts one owned review
+PASS other customer cannot reply to support ticket
+PASS blocked user cannot order
+PASS anonymous visitor cannot read private orders or checkout
+
+25 database checks passed. No external system accessed.

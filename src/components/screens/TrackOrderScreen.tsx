@@ -1,0 +1,7 @@
+import React from 'react';
+import {useOrder} from '../../lib/useData';
+import {DataScreen,panelClass} from '../common/DataScreen';
+export const TrackOrderScreen:React.FC<{orderId:string;onBack:()=>void;onArrivedOtpView:()=>void;onMarkDelivered?:()=>void}> = ({orderId,onBack})=>{
+ const {order,loading,error}=useOrder(orderId);
+ return <DataScreen title="Track Your Order" onBack={onBack} loading={loading} error={error}>{order ? <><article className={panelClass}><h2 className="font-bold break-all">#{order.id}</h2><p className="text-red-700 font-bold text-xl">{order.status}</p><p>{order.delivery_address?.address}</p><p>Placed {new Date(order.created_at).toLocaleString()}</p>{order.delivered_at && <p>Delivered {new Date(order.delivered_at).toLocaleString()}</p>}</article><article className={panelClass}><h2 className="font-bold">Order Journey</h2>{(order.status_history || []).map((s:any,n:number)=><p key={n}>{s.status} · {new Date(s.at).toLocaleString()}</p>)}</article>{order.delivery_partner?.name && <article className={panelClass}><h2 className="font-bold">Delivery partner: {order.delivery_partner.name}</h2>{order.delivery_partner.phone && <a href={`tel:${order.delivery_partner.phone}`}>Call delivery partner</a>}</article>}<p className="text-sm text-slate-500">Status refreshes from the store. Contact support if you need help.</p></> : !loading && !error && <p>Select an order from My Orders.</p>}</DataScreen>;
+};

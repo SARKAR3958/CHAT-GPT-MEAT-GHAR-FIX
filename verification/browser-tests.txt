@@ -1,0 +1,16 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> meat-ghar@1.0.0 test:browser
+> node tests/browser.mjs
+
+PASS customer home fits viewport 320
+PASS customer home fits viewport 360
+PASS customer home fits viewport 768
+PASS customer home fits viewport 1440
+PASS selected product uses its actual identity
+PASS failed checkout preserves cart and shows no success
+PASS confirmed checkout clears cart only after database success
+PASS forged local admin flag cannot bypass authentication
+PASS admin dashboard renders real computed metrics
+
+9 browser checks passed using controlled local API fixtures.

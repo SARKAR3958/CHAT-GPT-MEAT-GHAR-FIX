@@ -1,0 +1,8 @@
+import React,{useState} from 'react';
+import {supabase} from '../../lib/supabase';
+import {DataScreen,panelClass,buttonClass} from '../common/DataScreen';
+export const RateOrderScreen:React.FC<{orderId:string;onBack:()=>void;onSubmitReview:()=>void}>=({orderId,onBack,onSubmitReview})=>{
+ const [rating,setRating]=useState(5);const [comment,setComment]=useState('');const [error,setError]=useState('');const [busy,setBusy]=useState(false);
+ const submit=async(e:React.FormEvent)=>{e.preventDefault();if(busy)return;setBusy(true);try {const {data:{user}}=await supabase.auth.getUser();if(!user)throw new Error('Please sign in');const {error}=await supabase.from('reviews').insert({order_id:orderId,user_id:user.id,rating,comment:comment.trim()});if(error)throw error;onSubmitReview();}catch(error:any){setError(error.code==='23505' ? 'You have already reviewed this order.' : error.message);}finally{setBusy(false);}};
+ return <DataScreen title="Rate Your Order" onBack={onBack} error={error}><form onSubmit={submit} className={panelClass}><label className="block">Rating<select value={rating} onChange={e=>setRating(Number(e.target.value))} className="border rounded-xl p-3 w-full">{[5,4,3,2,1].map(n=><option key={n} value={n}>{n} stars</option>)}</select></label><label className="block">Feedback<textarea maxLength={4000} value={comment} onChange={e=>setComment(e.target.value)} className="border rounded-xl p-3 w-full"/></label><button disabled={busy || !orderId} className={buttonClass}>Submit Review</button><p className="text-xs text-slate-500">Reviews are available after delivery.</p></form></DataScreen>;
+};

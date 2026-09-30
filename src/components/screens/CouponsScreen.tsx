@@ -1,0 +1,5 @@
+import React from 'react';
+import {useRows} from '../../lib/useData';
+import {useCart} from '../../context/CartContext';
+import {DataScreen,panelClass,buttonClass} from '../common/DataScreen';
+export const CouponsScreen:React.FC<{onBack:()=>void;onNavigateTab:(tab:string)=>void;onApplyCoupon?:(code:string)=>void}>=({onBack,onNavigateTab})=>{const {rows,loading,error}=useRows('offers');const {setCouponCode}=useCart();const offers=rows.filter(o=>o.is_active && (!o.details.validTill || new Date(o.details.validTill+'T23:59:59')>=new Date()));return <DataScreen title="Coupons & Offers" onBack={onBack} loading={loading} error={error}>{offers.map(o=><article key={o.id} className={panelClass}><h2 className="font-bold">{o.details.title}</h2><p>{o.details.description}</p><p>Expires: {o.details.validTill || 'No expiry'}</p>{o.details.couponCode && <button className={buttonClass} onClick={()=>{setCouponCode(o.details.couponCode);onNavigateTab('cart');}}>Apply {o.details.couponCode}</button>}</article>)}{!loading && !error && !offers.length && <p>No offers available.</p>}</DataScreen>;};

@@ -1,0 +1,5 @@
+import React from 'react';
+import {useOrder} from '../../lib/useData';
+import {DataScreen,panelClass,buttonClass} from '../common/DataScreen';
+import {GreenTickLottie} from '../GreenTickLottie';
+export const OrderSuccessScreen:React.FC<{onTrackOrder:()=>void;onViewOrderDetails:()=>void}>=({onTrackOrder,onViewOrderDetails})=>{const {order,loading,error}=useOrder(localStorage.getItem('meatghar_last_order_id') || '');return <DataScreen title="Order Confirmation" onBack={onViewOrderDetails} loading={loading} error={error}>{order && <><article className={panelClass+' text-center'}><GreenTickLottie className="w-20 h-20 mx-auto"/><h2 className="font-bold text-xl">Order Placed</h2><p className="break-all">#{order.id}</p><p>Total ₹{order.total_amount}</p><p>{order.payment_method} · {order.payment_status}</p></article><button className={buttonClass+' w-full'} onClick={onTrackOrder}>Track Order</button><button className="text-red-700 font-bold w-full" onClick={onViewOrderDetails}>View Order Details</button></>}</DataScreen>;};
